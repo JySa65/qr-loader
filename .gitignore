@@ -1,0 +1,5 @@
+*.pyc
+.docker
+.env
+.vscode
+node_modules
