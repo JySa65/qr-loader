@@ -1,0 +1,7 @@
+src/
+webpack.config.js
+package.json
+yarn.lock
+node_modules/
+docker-compose.yml
+Dockerfile
