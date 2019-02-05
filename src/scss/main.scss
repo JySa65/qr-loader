@@ -1,1 +1,7 @@
-@import './preload'
+@import './preload';
+
+.embed-responsive-16by9::before {
+  @media screen and ( max-width: 571px) {
+    padding: 100% 0 0px 0px;
+  }  
+}

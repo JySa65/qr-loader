@@ -6963,3 +6963,7 @@ a.text-dark:hover, a.text-dark:focus {
   100% {
     transform: rotate(360deg); } }
 
+@media screen and (max-width: 571px) {
+  .embed-responsive-16by9::before {
+    padding: 100% 0 0px 0px; } }
+
