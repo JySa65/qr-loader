@@ -1,5 +1,35 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block context %}
-wefwef
+<div class="text-center">
+  <h1>Escanee El Qr o Registre Uno Nuevo</h1>
+</div>
+
+<div class="row mt-5">
+  <div class="col-sm-6">
+    <h2>Escanee Qr</h2>
+    <div class="text-center mt-5 base-preload" id="preload">
+      <div class="lds-ring p-5 mt-5 text-center" style="margin: 3% 36%;">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <h3 class="text-white">Espere Mientra Carga La Camara</h3>
+    </div>
+    <div class="embed-responsive embed-responsive-16by9" id="video" hiden>
+      <video class="embed-responsive-item" id="preview" autoplay="true"></video>
+    </div>
+  </div>
+  <div class="col-sm-6 text-center">
+    <h2>Cree Un Nuevo Codigo Qr</h2>
+    <button class="btn btn-info mt-4" id="btn_add">Crear</button>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block js_i %}
+<script src="{% static 'instascan.min.js'  %}"></script>
 {% endblock %}

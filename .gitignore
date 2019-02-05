@@ -1,5 +1,7 @@
 *.pyc
+*/**.pyc
 .docker
 .env
 .vscode
-node_modules
+node_modules/
+__pycache__/

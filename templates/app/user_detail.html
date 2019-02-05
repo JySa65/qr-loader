@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block context%}
+
+<div class="text-center">
+  <h1>{{ user.get_full_name }}</h1>
+</div>
+<div class="container mt-3">
+  <div class="text-center mt-3">
+    <img id="qr_img" name="{{ object.token.token }}" width="250">
+  </div>
+  <div class="row mt-2">
+    <div class="col-sm-12">
+      <label><b>Cedula: &nbsp;</b> {{ object.ci }}</label>
+    </div>
+    <div class="col-sm-6">
+      <label><b>Nombre: &nbsp;</b> {{ object.name }}</label>
+    </div>
+    <div class="col-sm-6">
+      <label><b>Apellido: &nbsp;</b> {{ object.last_name }}</label>
+    </div>
+    <div class="col-sm-6">
+      <label><b>Fecha de Nacimiento: &nbsp;</b> {{ object.birthday }}</label>
+    </div>
+    <div class="col-sm-6">
+      <label><b>Correo Electronico: &nbsp;</b> {{ object.email }}</label>
+    </div>
+    <div class="col-sm-6">
+      <label><b>Direccion: &nbsp;</b> {{ object.address }}</label>
+    </div>
+  </div>
+</div>
+{% endblock %}
