@@ -1,5 +1,6 @@
 import swal from 'sweetalert2'
 import axios from 'axios'
+import { any } from '../../utils/mobile'
 
 const qr = () => {
   const video = document.getElementById('preview')
@@ -8,18 +9,19 @@ const qr = () => {
 
     Instascan.Camera.getCameras().then((cameras) => {
       if (cameras.length > 0) {
-        scanner.start(cameras[0]);
+        if (any !== null){
+          scanner.start(cameras[0]);
+        } else {
+          scanner.start(cameras[1]);          
+        }
         const preload = document.querySelector('#preload')
         const video = document.querySelector('#video')
         video.removeAttribute('hidden')
         preload.setAttribute('hidden', 'hidden')
       } else {
         swal.fire('Error', 'Camera No Found', 'error')
-        console.error('No cameras found.');
       }
-    }).catch((e) => {
-      console.log(e)
-      
+    }).catch((e) => {     
       swal.fire('Error', e, 'error')
     });
 
@@ -66,7 +68,6 @@ const qr = () => {
       } else {
         swal.fire('Error', data.data.msg, 'error')
       }
-      console.log(data)
     });
   }
 }
