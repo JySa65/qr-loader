@@ -1,18 +1,18 @@
 import swal from 'sweetalert2'
 import axios from 'axios'
-import { any } from '../../utils/mobile'
+import mobile from '../../utils/mobile'
 
 const qr = () => {
   const video = document.getElementById('preview')
   if (video) {
     const scanner = new Instascan.Scanner({ video });
-
+    const type = mobile.any()
     Instascan.Camera.getCameras().then((cameras) => {
       if (cameras.length > 0) {
-        if (any !== null){
+        if (type === null) {
           scanner.start(cameras[0]);
         } else {
-          scanner.start(cameras[1]);          
+          scanner.start(cameras[1]);
         }
         const preload = document.querySelector('#preload')
         const video = document.querySelector('#video')
@@ -21,7 +21,7 @@ const qr = () => {
       } else {
         swal.fire('Error', 'Camera No Found', 'error')
       }
-    }).catch((e) => {     
+    }).catch((e) => {
       swal.fire('Error', e, 'error')
     });
 
