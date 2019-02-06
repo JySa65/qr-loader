@@ -1,18 +1,19 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponseRedirect
 from django.views.generic import TemplateView, View, DetailView, \
-    CreateView, ListView, UpdateView
+    CreateView, ListView, UpdateView, DeleteView
 from django.core import serializers
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from app import models, forms
 # Create your views here.
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "app/home.html"
 
 
-class ScanQrCode(View):
+class ScanQrCode(LoginRequiredMixin, View):
     model = models.User
     second_model = models.TokenQr
 
@@ -50,7 +51,7 @@ class ScanQrCode(View):
             return JsonResponse(data)
 
 
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
     model = models.User
 
     def get_object(self):
@@ -59,7 +60,7 @@ class UserDetailView(DetailView):
         return object
 
 
-class UserCreateView(CreateView):
+class UserCreateView(LoginRequiredMixin, CreateView):
     model = models.User
     form_class = forms.UserForm
 
@@ -75,7 +76,7 @@ class UserCreateView(CreateView):
         return reverse_lazy('app:user_detail', args=(self.object.token.token,))
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = models.User
     form_class = forms.UserForm
 
@@ -99,7 +100,7 @@ class UserUpdateView(UpdateView):
         return reverse_lazy('app:user_detail', args=(self.object.token.token,))
 
 
-class TokenQrCreateView(CreateView):
+class TokenQrCreateView(LoginRequiredMixin, CreateView):
     model = models.TokenQr
     form_class = forms.TokenQrForm
     template_name = 'app/home.html'
@@ -108,7 +109,7 @@ class TokenQrCreateView(CreateView):
         return reverse_lazy('app:token_detail', args=(self.object.pk,))
 
 
-class TokenQrDetailView(DetailView):
+class TokenQrDetailView(LoginRequiredMixin, DetailView):
     model = models.TokenQr
 
     def get_context_data(self, **kwargs):
@@ -117,9 +118,37 @@ class TokenQrDetailView(DetailView):
         return context
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
+    model = models.User
+    paginate_by = 10
+
+
+class TokenQrListView(LoginRequiredMixin, ListView):
+    model = models.TokenQr
+    paginate_by = 10
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = models.User
 
+    def get_object(self):
+        object = self.model.objects.filter(
+            pk=self.kwargs.get('pk'),
+            token__token=self.kwargs.get('token')).first()
+        if (object == None):
+            raise Http404
+        return object
 
-class TokenQrListView(ListView):
+
+    def post(self, *args, **kwargs):
+        self.get_object().token.delete()
+        return HttpResponseRedirect(reverse_lazy('app:user_list'))
+
+class TokenQrDeleteView(LoginRequiredMixin, DeleteView):
     model = models.TokenQr
+    success_url = reverse_lazy('app:token_list')
+
+    def get_context_data(self, **kwargs):
+        context = super(TokenQrDeleteView, self).get_context_data(**kwargs)
+        context['user'] = models.User.objects.filter(token=self.object).first()
+        return context

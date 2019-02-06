@@ -6967,3 +6967,7 @@ a.text-dark:hover, a.text-dark:focus {
   .embed-responsive-16by9::before {
     padding: 100% 0 0px 0px; } }
 
+@media print {
+  .btn {
+    display: none; } }
+

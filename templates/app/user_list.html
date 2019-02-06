@@ -16,15 +16,58 @@
         <td>{{ forloop.counter }}</td>
         <td>{{ object.ci }}</td>
         <td>{{ object.get_full_name }}</td>
-        <td class="text-center"><img src="{% url 'admin:qr_code' pk=object.pk %}" width="100"></td>
+        <td class="text-center"><img src="{% url 'admin:qr_code' pk=object.token.pk %}" width="100"></td>
         <td>
           <a href="{% url 'app:user_detail' object.token.token %}" class="btn btn-small btn-info">Ver</a>
           <a href="{% url 'app:user_update' pk=object.pk token=object.token.token %}" class="btn btn-small btn-warning">Actualizar</a>
-          <a href="" class="btn btn-small btn-danger">Eliminar</a>
+          <a href="{% url 'app:user_delete' pk=object.pk token=object.token.token %}" class="btn btn-small btn-danger">Eliminar</a>
         </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td>No</td>
+        <td>Hay</td>
+        <td>Usuario</td>
+        <td>Registrado</td>
+        <td>:'c</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+{% if is_paginated %}
+<div class="mt-5">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><<</a>
+    </li> 
+    {% else %} 
+    <li class="disabled page-item">
+      <a href="#" class="page-link"><<</a>
+    </li>
+    {% endif %} 
+    
+    {% for page in paginator.page_range %} 
+    <li class="page-item {% if page == page_obj.number %}active{% endif %}">
+      <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+    </li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+        >>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#">
+        >>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
 {% endblock %}

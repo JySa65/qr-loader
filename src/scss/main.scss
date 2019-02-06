@@ -5,3 +5,9 @@
     padding: 100% 0 0px 0px;
   }  
 }
+
+@media print {
+  .btn {
+    display: none;
+  }
+}

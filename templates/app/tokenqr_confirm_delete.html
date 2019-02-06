@@ -2,6 +2,11 @@
 {% load staticfiles %}
 
 {% block context %}
+<h1 class="text-center">¿Esta Seguro de Eliminar Este Qr?</h1>
+{% if user %} 
+<h2 class="text-center">Este Qr Ya Esta Asignado A Una Persona</h2>
+<h3 class="text-center">Al Eliminar Este Qr Se Elimina La Persona</h3>
+{% endif %}
 <div class="text-center">
   <p id="qrcode">
     <img width="200" height="200" src="{% url 'admin:qr_code' pk=object.pk %}" onerror="document.getElementById('qrcode').style.display = 'none'; document.getElementById('no-qrcode').style.display = 'block';"
@@ -36,8 +41,9 @@
   </tbody>
 </table>
 <br>
-<div class="text-center">
-  <a href="javascript:history.back()" class="btn btn-danger btn-lg">Regresar</a>
-  <a href="javascript:print()" class="btn btn-success btn-lg">Imprimir</a>
-</div>
+<form action="" method="post" class="text-center">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger btn-lg">Eliminar</button>
+  <a href="javascript:history.back()" class="btn btn-success btn-lg">Regresar</a>  
+</form>
 {% endblock %}

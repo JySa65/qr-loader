@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
 {% block context%}
-
-<div class="text-center">
-  <h1>{{ user.get_full_name }}</h1>
-</div>
+<h1 class="text-center">¿Esta Seguro de Eliminar a {{ user.get_full_name }}</h1>
+<h2 class="text-center">Al Eliminar a "<b>{{ user.get_full_name }}</b>" Se Elimina El Qr</h2>
 <div class="container ">
   <div class="text-center mt-2">
     <img id="qr_img" name="{{ object.token.token }}" width="250">
@@ -29,8 +27,11 @@
       <label><b>Direccion: &nbsp;</b> {{ object.address }}</label>
     </div>
     <div class="col-sm-12 text-center mt-4">
-      <a href="javascript:history.back()" class="btn btn-danger btn-lg">Regresar</a>
-      <a href="javascript:print()" class="btn btn-success btn-lg">Imprimir</a>
+     <form action="" method="post">
+       {% csrf_token %}
+        <button class="btn btn-lg btn-danger" type="submit">Eliminar</button>
+        <a href="javascript:history.back()" class="btn btn-success btn-lg">Regresar</a>
+     </form>
     </div>
   </div>
 </div>
