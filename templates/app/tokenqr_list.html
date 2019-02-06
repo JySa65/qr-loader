@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block context %}
+<div class="row">
+  <table class="table table-bordered">
+    <thead>
+      <th>#</th>
+      <th>Token</th>
+      <th>Añadida A Un Usuario</th>
+      <th>Persona</th>
+      <th>Qr</th>
+      <th>Opciones</th>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ object.token }}</td>
+        <td class="text-center">
+          <img src="{% if object.is_active %}/static/admin/img/icon-yes.svg{%else%}/static/admin/img/icon-no.svg{%endif%}" alt="{{object.is_active}}"
+            title="{% if object.is_active %}Añadido A Una Persona{%else%}No Esta Añadido{%endif%}">
+        </td>
+        <td>
+          {% if object.get_user != None%}
+          {{ object.get_user.get_full_name }}
+          {% else %}
+            No Tiene Persona
+          {% endif %}
+        </td>        
+        <td class="text-center"><img src="{% url 'admin:qr_code' pk=object.pk %}" width="100"></td>
+        <td>
+          <a href="{% url 'app:token_detail' object.pk %}" class="btn btn-small btn-info">Ver</a>
+          <a href="" class="btn btn-small btn-danger">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

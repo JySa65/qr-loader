@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block context%}
+{{ form.name }}
 <form action="" method="post">
   {% csrf_token %}
   <div class="row">
@@ -21,7 +22,7 @@
         </div>
         <div class="col-md-6 col-sm-12">
           <div class="form-group">
-            <a href="/" class="btn btn-danger btn-block btn-lg">Regresar</a>
+            <a href="javascript:history.back()" class="btn btn-danger btn-block btn-lg">Regresar</a>
           </div>
         </div>
       </div>

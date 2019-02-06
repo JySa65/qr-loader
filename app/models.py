@@ -15,9 +15,16 @@ class TokenQr(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ('-created_at',)
+
     def __str__(self):
         return f'{self.token}'
 
+
+    def get_user(self):
+        return User.objects.filter(token=self.pk).first()
+        
 
 class User(models.Model):
     token = models.OneToOneField(

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from django.views.generic import TemplateView, View, DetailView, CreateView, ListView
+from django.http import JsonResponse, Http404
+from django.views.generic import TemplateView, View, DetailView, \
+    CreateView, ListView, UpdateView
 from django.core import serializers
 from django.urls import reverse_lazy
 from app import models, forms
@@ -69,6 +70,30 @@ class UserCreateView(CreateView):
         _object.token = token
         self.object = _object.save()
         return super(UserCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('app:user_detail', args=(self.object.token.token,))
+
+
+class UserUpdateView(UpdateView):
+    model = models.User
+    form_class = forms.UserForm
+
+    def get_object(self):
+        object = self.model.objects.filter(
+            pk=self.kwargs.get('pk'),
+            token__token=self.kwargs.get('token')).first()
+        if (object == None):
+            raise Http404
+        return object
+
+    def form_valid(self, form):
+        token = get_object_or_404(
+            models.TokenQr, token=self.kwargs.get('token'))
+        _object = form.save(commit=False)
+        _object.token = token
+        self.object = _object.save()
+        return super(UserUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('app:user_detail', args=(self.object.token.token,))
