@@ -5,11 +5,11 @@
 <div class="text-center">
   <h1>{{ user.get_full_name }}</h1>
 </div>
-<div class="container mt-3">
-  <div class="text-center mt-3">
+<div class="container ">
+  <div class="text-center mt-2">
     <img id="qr_img" name="{{ object.token.token }}" width="250">
   </div>
-  <div class="row mt-2">
+  <div class="row mt-1">
     <div class="col-sm-12">
       <label><b>Cedula: &nbsp;</b> {{ object.ci }}</label>
     </div>
@@ -25,8 +25,11 @@
     <div class="col-sm-6">
       <label><b>Correo Electronico: &nbsp;</b> {{ object.email }}</label>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <label><b>Direccion: &nbsp;</b> {{ object.address }}</label>
+    </div>
+    <div class="col-sm-12 text-center mt-4">
+      <a href="/" class="btn btn-danger btn-lg">Regresar</a>
     </div>
   </div>
 </div>

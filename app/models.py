@@ -26,14 +26,14 @@ class User(models.Model):
         verbose_name=_('Token Qr')
     )
     ci = models.CharField(_('Cedula'), max_length=8,
-                          blank=False, null=False)
+                          blank=False, null=False, unique=True)
     name = models.CharField(_('Nombres'), max_length=50,
                                 blank=False, null=False)
     last_name = models.CharField(
         _('Apellidos'), max_length=50, blank=False, null=False)
-    address = models.TextField(_('Direccion'),)
     birthday = models.DateField(_('Fecha De Nacimiento'),)
     email = models.EmailField()
+    address = models.TextField(_('Direccion'),)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

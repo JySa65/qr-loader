@@ -41,11 +41,7 @@ const qr = () => {
           })
             .then((result) => {
               if (result.value) {
-                swal.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
-                  'success'
-                )
+                window.location.href = `/user/create/${data.data.data.token}/`
               }
             })
         } else {

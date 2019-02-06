@@ -33,6 +33,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
+    "datepicker-bootstrap": "^1.9.11",
     "empty-element": "^1.0.0",
     "instascan": "1.0.0",
     "jquery": "^3.3.1",

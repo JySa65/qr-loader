@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block context %}
+<div class="text-center">
+  <p id="qrcode">
+    <img width="200" height="200" src="{% url 'admin:qr_code' pk=object.pk %}" onerror="document.getElementById('qrcode').style.display = 'none'; document.getElementById('no-qrcode').style.display = 'block';"
+      style="width: 350px; height: 350px;">
+  </p>
+</div>
+<table class="table table-bordered">
+  <thead>
+    <th>Token</th>
+    <th>Añadido A Una Persona</th>
+    <th>Persona</th>
+    <th>Creado</th>
+    <th>Actualizado</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ object.token }}</td>
+      <td class="text-center">
+        <img src="{% if object.is_active %}/static/admin/img/icon-yes.svg{%else%}/static/admin/img/icon-no.svg{%endif%}"
+          alt="{{object.is_active}}" title="{% if object.is_active %}Añadido A Una Persona{%else%}No Esta Añadido{%endif%}">
+      </td>
+      <td>
+        {% if user != None %}
+        {{ user.get_full_name }}
+        {% else %}
+        No Hay Persona
+        {% endif %}
+      </td>
+      <td>{{ object.created_at }}</td>
+      <td>{{ object.updated_at }}</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<div class="text-center">
+  <a href="javascript:history.back()" class="btn btn-danger btn-lg">Regresar</a>
+</div>
+{% endblock %}
